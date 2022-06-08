@@ -28,15 +28,15 @@ def main():
 
     template = env.get_template('template.html')
 
-    raw_age = date.today().year - YEAR_ESTABLISHED
-    if raw_age % 100 in range(10, 16):
-        age = f'{raw_age} лет'
-    elif raw_age % 10 in (2, 3, 4):
-        age = f'{raw_age} года'
-    elif raw_age% 10 == 1:
-        age = f'{raw_age} год'
+    age_in_years = date.today().year - YEAR_ESTABLISHED
+    if age_in_years % 100 in range(10, 16):
+        age = f'{age_in_years} лет'
+    elif age_in_years % 10 in (2, 3, 4):
+        age = f'{age_in_years} года'
+    elif age_in_years% 10 == 1:
+        age = f'{age_in_years} год'
     else:
-        age = f'{raw_age} лет'
+        age = f'{age_in_years} лет'
 
     rendered_page = template.render(
         age=age,
