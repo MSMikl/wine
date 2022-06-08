@@ -1,13 +1,16 @@
 from collections import defaultdict
-from datetime import datetime, timedelta, date
+from datetime import date
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 import pandas
 
+from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def main():
+    load_dotenv()
+        
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
