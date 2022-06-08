@@ -19,11 +19,13 @@ def main():
         autoescape=select_autoescape(['html', 'xml'])
     )
 
-    raw_readed_data = pandas.read_excel(wines_table_file, keep_default_na=False, na_values=None)
-    min_price = raw_readed_data['Цена'].min()
-    readed_data = raw_readed_data.to_dict('records')
+    readed_excel = (
+        pandas
+        .read_excel(wines_table_file, keep_default_na=False, na_values=None)
+        .to_dict('records')
+    )
     wines = defaultdict(list)
-    for line in readed_data:
+    for line in readed_excel:
         wines[line['Категория']].append(line)
 
     template = env.get_template('template.html')
@@ -40,8 +42,7 @@ def main():
 
     rendered_page = template.render(
         age=age,
-        wines=wines,
-        min_price=min_price
+        wines=wines
     )
 
     with open('index.html', 'w', encoding="utf8") as file:
