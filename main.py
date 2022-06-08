@@ -11,7 +11,7 @@ env = Environment(
     autoescape=select_autoescape(['html', 'xml'])
 )
 
-production_data = pandas.read_excel('wine2.xlsx', keep_default_na=False, na_values=None)
+production_data = pandas.read_excel('wines.xlsx', keep_default_na=False, na_values=None)
 wines = defaultdict(list)
 for line in production_data.values:
     wines[line[0]].append(
