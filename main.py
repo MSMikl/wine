@@ -1,3 +1,5 @@
+import os
+
 from collections import defaultdict
 from datetime import date
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -10,15 +12,15 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 def main():
     load_dotenv()
-        
+    wines_table_file = os.getenv('XLSX_PATH', 'wines.xlsx')
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
 
-    production_data = pandas.read_excel('wines.xlsx', keep_default_na=False, na_values=None)
+    raw_readed_db = pandas.read_excel(wines_table_file, keep_default_na=False, na_values=None)
     wines = defaultdict(list)
-    for line in production_data.values:
+    for line in raw_readed_db.values:
         wines[line[0]].append(
                         {
                 'Название': line[1],
@@ -27,7 +29,7 @@ def main():
                 'Картинка': line[4]
             }
         )
-    min_price = production_data['Цена'].min()
+    min_price = raw_readed_db['Цена'].min()
 
     template = env.get_template('template.html')
 
