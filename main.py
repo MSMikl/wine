@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def main():
-    year_established = 1920
+    established_at = 1920
     load_dotenv()
     wines_table_file = os.getenv('XLSX_PATH', 'wines.xlsx')
     env = Environment(
@@ -19,18 +19,18 @@ def main():
         autoescape=select_autoescape(['html', 'xml'])
     )
 
-    readed_excel = (
+    wines_from_excel = (
         pandas
         .read_excel(wines_table_file, keep_default_na=False, na_values=None)
         .to_dict('records')
     )
     wines = defaultdict(list)
-    for line in readed_excel:
+    for line in wines_from_excel:
         wines[line['Категория']].append(line)
 
     template = env.get_template('template.html')
 
-    age_in_years = date.today().year - year_established
+    age_in_years = date.today().year - established_at
     if age_in_years % 100 in range(10, 16):
         age = f'{age_in_years} лет'
     elif age_in_years % 10 in (2, 3, 4):
