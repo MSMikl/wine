@@ -11,7 +11,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 def main():
-    YEAR_ESTABLISHED = 1920
+    year_established = 1920
     load_dotenv()
     wines_table_file = os.getenv('XLSX_PATH', 'wines.xlsx')
     env = Environment(
@@ -30,7 +30,7 @@ def main():
 
     template = env.get_template('template.html')
 
-    age_in_years = date.today().year - YEAR_ESTABLISHED
+    age_in_years = date.today().year - year_established
     if age_in_years % 100 in range(10, 16):
         age = f'{age_in_years} лет'
     elif age_in_years % 10 in (2, 3, 4):
