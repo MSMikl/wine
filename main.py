@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 def main():
     established_at = 1920
     load_dotenv()
-    wines_table_file = os.getenv('XLSX_PATH', 'wines.xlsx')
+    wines_table_relative_filepath = os.getenv('XLSX_PATH', 'wines.xlsx')
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -21,12 +21,12 @@ def main():
 
     wines_from_excel = (
         pandas
-        .read_excel(wines_table_file, keep_default_na=False, na_values=None)
+        .read_excel(wines_table_relative_filepath, keep_default_na=False, na_values=None)
         .to_dict('records')
     )
     wines = defaultdict(list)
-    for line in wines_from_excel:
-        wines[line['Категория']].append(line)
+    for wine in wines_from_excel:
+        wines[wine['Категория']].append(wine)
 
     template = env.get_template('template.html')
 
